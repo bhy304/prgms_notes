@@ -12,4 +12,5 @@ app.use((err, req, res, _next) => {
     console.error(err);
     res.sendStatus(500);
 });
+router;
 exports.default = app;
