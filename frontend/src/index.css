@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+@import 'sanitize.css/sanitize.css';
+@import 'sanitize.css/forms.css';
+@import 'sanitize.css/assets.css';
+@import 'sanitize.css/typography.css';
+
+:root {
+  color: #495057;
+}
