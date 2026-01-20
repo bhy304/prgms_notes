@@ -3,9 +3,9 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { UserService } from '../models/User';
 import { isQueryError } from '../utils';
+import { JWT_SECRET } from '../settings';
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 router.post('/signup', async (req, res) => {
   const { email, password } = req.body;
@@ -23,7 +23,7 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await UserService.findOneByEmail(email);
-  if (!user || !(await bcrypt.compare(password, user.password!))) {
+  if (!user || !(await bcrypt.compare(password, user.encrypted_password!))) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
     secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
   });
-  return res.status(204).json({ message: 'Login successful' });
+  return res.status(200).json({ message: 'Login successful' });
 });
 
 export default router;

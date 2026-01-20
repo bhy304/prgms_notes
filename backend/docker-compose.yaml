@@ -1,0 +1,38 @@
+services:
+  db:
+    image: mariadb:latest
+    healthcheck:
+      test: ['CMD-SHELL', 'mariadb-admin ping -h localhost -u root -p$$MARIADB_ROOT_PASSWORD']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+    ports:
+      - 3032:3306
+    networks:
+      - notes
+    volumes:
+      - ./db:/var/lib/mysql
+      - ../init-db.sql:/docker-entrypoint-initdb.d/1-init-db.sql
+      - ../init-user.sql:/docker-entrypoint-initdb.d/2-init-user.sql
+
+  backend:
+    image: prgms-notes-backend:latest
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: prgms
+      DB_PASSWORD: prgms
+      DB_DATABASE: prgms_notes
+    ports:
+      - 3031:3031
+    networks:
+      - notes
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  notes: {}

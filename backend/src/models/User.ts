@@ -5,14 +5,14 @@ import bcrypt from 'bcrypt';
 export interface User extends RowDataPacket {
   id: number;
   email: string;
-  password?: string;
+  encrypted_password?: string;
 }
 
 export const UserService = {
-  async create({ email, password }: Pick<User, 'email' | 'password'>) {
+  async create({ email, password }: { email: string; password?: string }) {
     const hashedPassword = await bcrypt.hash(password!, 10);
     const [result] = await pool.execute<ResultSetHeader>(
-      'INSERT INTO users (email, password) VALUES (?, ?)',
+      'INSERT INTO users (email, encrypted_password) VALUES (?, ?)',
       [email, hashedPassword],
     );
     return result;
