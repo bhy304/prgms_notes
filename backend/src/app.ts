@@ -5,6 +5,7 @@ import cors from 'cors';
 import { CORS_ALLOWED_ORIGIN } from './settings';
 import authRouter from './routes/auth';
 import notesRouter from './routes/notes';
+import usersRouter from './routes/users';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 
 app.use('/auth', authRouter);
 app.use('/notes', notesRouter);
+app.use('/users', usersRouter);
 
 app.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
   console.error(err);
