@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notes-be-config
+  namespace: prgms-notes
+data:
+  NODE_ENV: 'production'
+  PORT: '3031'
+  CORS_ALLOWED_ORIGIN: 'http://localhost:3000'
+  JWT_SECRET: 'your-secret-key'
+  DB_HOST: 'notes-db.db.svc.cluster.local'
+  DB_PORT: '3306'
+  DB_USER: 'prgms'
+  DB_PASSWD: 'prgms'
+  DB_NAME: 'prgms_notes'

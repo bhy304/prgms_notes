@@ -1,7 +1,8 @@
 import axios from 'axios'
 
-const baseURL =
-  window._ENV?.VITE_API_BASE_URL || import.meta.env.VITE_API_BASE_URL
+import { API_BASE_URL } from '../settings'
+
+const baseURL = API_BASE_URL
 
 export const httpClient = axios.create({
   baseURL,

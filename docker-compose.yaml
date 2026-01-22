@@ -31,10 +31,10 @@ services:
       DB_HOST: db
       DB_PORT: 3306
       DB_USER: prgms
-      DB_PASSWORD: prgms
-      DB_DATABASE: prgms_notes
-      # 프론트엔드 컨테이너의 호스트 포트(3000)를 허용하도록 설정
-      CORS_ALLOWED_ORIGIN: http://localhost:3000
+      DB_PASSWD: prgms
+      DB_NAME: prgms_notes
+      # 이미지 가이드에 따라 30030 허용 (기존 3000에서 변경)
+      CORS_ALLOWED_ORIGIN: http://localhost:30030
     ports:
       - 3031:3031
     networks:
@@ -51,7 +51,7 @@ services:
     environment:
       VITE_API_BASE_URL: http://localhost:3031
     ports:
-      - 3000:3000
+      - 30030:3000
     networks:
       - notes
 

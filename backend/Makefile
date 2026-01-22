@@ -1,5 +1,5 @@
 ARCH=amd64
-IMG_TAG=prgms-notes-backend:latest
+IMG_TAG=bhy0512/prgms-notes-backend:latest
 
 all:
 	cat ./Makefile
@@ -13,3 +13,19 @@ node:
 
 image: Dockerfile node
 	docker build --platform=linux/${ARCH} --tag ${IMG_TAG} .
+
+push:
+	docker push ${IMG_TAG}
+
+deploy: notes-be.yaml configmap.yaml
+	kubectl apply -f ../namespace.yaml
+	kubectl apply -f configmap.yaml
+	kubectl apply -f notes-be.yaml
+
+undeploy:
+	kubectl delete -f notes-be.yaml
+	kubectl delete -f configmap.yaml
+
+clean:
+	rm -rf build
+	docker rmi ${IMG_TAG}

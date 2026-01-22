@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-be
+  namespace: prgms-notes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: notes-be
+  template:
+    metadata:
+      labels:
+        run: notes-be
+    spec:
+      containers:
+        - name: notes-backend
+          # 이미지 태그는 프로젝트 설정(prgms-notes-backend:latest)에 맞추거나
+          # 실제 푸시된 레지스트리 주소를 기입해야 합니다.
+          image: bhy0512/prgms-notes-backend:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: notes-be-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notes-be
+  labels:
+    run: notes-be
+  namespace: prgms-notes
+spec:
+  type: NodePort
+  selector:
+    run: notes-be
+  ports:
+    - port: 3031
+      targetPort: 3031
+      nodePort: 30031
